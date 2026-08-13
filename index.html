@@ -17,7 +17,6 @@
             --accent: #3b82f6;
             --radius-lg: 20px;
             --radius-md: 14px;
-            /* 新增：光晕颜色 */
             --glow-color: rgba(59, 130, 246, 0.08);
             --card-border-glow: rgba(59, 130, 246, 0.15);
         }
@@ -97,7 +96,6 @@
             background: var(--glow-color);
         }
 
-        /* ===== 额外两个光晕（用伪元素不够了，用额外元素） ===== */
         .glow-spot {
             position: fixed;
             border-radius: 50%;
@@ -290,7 +288,7 @@
             gap: 20px;
         }
 
-        /* ===== 欢迎卡片（全新升级） ===== */
+        /* ===== 欢迎卡片 ===== */
         .welcome-card {
             position: relative;
             overflow: hidden;
@@ -393,7 +391,7 @@
             50% { opacity: 0.4; transform: scale(0.8); }
         }
 
-        /* ===== 装饰小标签区 ===== */
+        /* ===== 装饰标签 ===== */
         .feature-tags {
             display: flex;
             flex-wrap: wrap;
@@ -463,6 +461,14 @@
             text-align: center;
             margin-bottom: 16px;
             color: var(--text-main);
+            line-height: 1.8;
+        }
+
+        .modal-text .thankyou {
+            margin-top: 16px;
+            font-size: 14px;
+            color: var(--text-footer);
+            opacity: 0.7;
         }
 
         .modal-check-wrap {
@@ -555,7 +561,6 @@
             z-index: 1;
         }
 
-        /* ===== 页脚装饰线 ===== */
         .footer-divider {
             max-width: 200px;
             height: 2px;
@@ -589,7 +594,7 @@
             font-size: 12px;
         }
     
-        /* ================= Loading 加载动画 ================= */
+        /* ================= Loading ================= */
         #loadingScreen {
             position: fixed;
             inset: 0;
@@ -630,7 +635,7 @@
             opacity: 0.7;
         }
 
-        /* ================= 动态粒子背景 ================= */
+        /* ================= 粒子背景 ================= */
         #particleCanvas {
             position: fixed;
             top: 0;
@@ -639,6 +644,40 @@
             height: 100%;
             z-index: 0;
             pointer-events: none;
+        }
+
+        /* ===== 成就列表样式 ===== */
+        .achievement-list {
+            text-align: left;
+            margin: 8px 0 12px;
+            padding: 0;
+            list-style: none;
+        }
+        .achievement-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(128,128,128,0.08);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .achievement-list li:last-child {
+            border-bottom: none;
+        }
+        .achievement-list .ach-check {
+            display: inline-block;
+            width: 24px;
+            text-align: center;
+            font-size: 18px;
+        }
+        .achievement-list .ach-check.locked {
+            color: #555;
+        }
+        .achievement-list .ach-check.unlocked {
+            color: #22c55e;
+        }
+        .achievement-list .ach-name {
+            flex: 1;
         }
     </style>
 </head>
@@ -650,7 +689,7 @@
     <!-- 动态粒子背景 -->
     <canvas id="particleCanvas"></canvas>
 
-    <!-- Loading 加载动画 -->
+    <!-- Loading -->
     <div id="loadingScreen">
         <div class="loading-spinner"></div>
         <div class="loading-text">LY-TO1</div>
@@ -714,11 +753,32 @@
         </div>
     </header>
 
-    <!-- 侧边栏 -->
+    <!-- ===== 侧边栏（已按要求精简） ===== -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
     <div class="sidebar" id="sidebar">
-        <div class="menu-item" id="menuAbout">关于</div>
-        <div class="menu-item" id="menuAuthor">制作人员</div>
+        <!-- 顶部项目信息 -->
+        <div style="padding: 0 26px 16px; border-bottom: 1px solid rgba(128,128,128,0.1);">
+            <div style="font-size: 18px; font-weight: 700; color: var(--text-main);">LY-TO1</div>
+            <div style="font-size: 12px; color: var(--text-footer); margin-top: 2px;">v3.1.9.5 · MIT 开源</div>
+        </div>
+
+        <!-- 菜单项 -->
+        <div class="menu-item" id="menuAbout">📄 关于项目</div>
+        <div class="menu-item" id="menuAuthor">👤 制作人员</div>
+        <div class="menu-item" id="menuAchievements">🏆 成就</div>
+
+        <!-- 分割线 -->
+        <div style="height: 1px; margin: 8px 26px; background: rgba(128,128,128,0.1);"></div>
+
+        <!-- 社交链接 -->
+        <a target="_blank" href="https://github.com/xnyxyzaf/LY-TO1" style="text-decoration: none;">
+            <div class="menu-item">🐙 GitHub 仓库</div>
+        </a>
+
+        <!-- 底部 -->
+        <div style="position: absolute; bottom: 20px; left: 0; right: 0; text-align: center; font-size: 11px; color: var(--text-footer); opacity: 0.4; padding: 0 20px;">
+            Made with ❤️ · 2026
+        </div>
     </div>
 
     <!-- 主内容 -->
@@ -783,10 +843,13 @@
         </div>
     </div>
 
-    <!-- 关于弹窗 -->
+    <!-- 关于项目弹窗 -->
     <div class="modal-overlay" id="modalAbout">
         <div class="modal">
-            <div class="modal-text">项目编号LY‑TO1 v3.1.9.5‑β</div>
+            <div class="modal-text">
+                项目编号 LY‑TO1 v3.1.9.5‑β
+                <div class="thankyou">Thank you for watch.</div>
+            </div>
             <button class="modal-btn modal-close" id="closeAbout">关闭</button>
         </div>
     </div>
@@ -799,6 +862,17 @@
                 <button class="modal-btn bilibili-btn">去关注我的B站账号</button>
             </a>
             <button class="modal-btn modal-close" id="closeAuthor">关闭</button>
+        </div>
+    </div>
+
+    <!-- 成就弹窗 -->
+    <div class="modal-overlay" id="modalAchievements">
+        <div class="modal">
+            <div class="modal-text">🏆 彩蛋成就</div>
+            <ul class="achievement-list" id="achievementList">
+                <!-- 由 JS 动态生成 -->
+            </ul>
+            <button class="modal-btn modal-close" id="closeAchievements">关闭</button>
         </div>
     </div>
 
@@ -987,10 +1061,10 @@
     // 4. 多语言
     // ============================================================
     const i18nData = {
-        zh: { welcome: "网站主体内容区域<br>(等待填充...)", about: "关于", author: "制作人员" },
-        en: { welcome: "Website Main Content Area<br>(Waiting for content...)", about: "About", author: "Credits" },
-        ja: { welcome: "ウェブサイト本体エリア<br>(準備中...)", about: "について", author: "クレジット" },
-        ko: { welcome: "웹사이트 본문 영역<br>(내용 준비중...)", about: "정보", author: "제작자" },
+        zh: { welcome: "网站主体内容区域<br>(等待填充...)", about: "关于项目", author: "制作人员" },
+        en: { welcome: "Website Main Content Area<br>(Waiting for content...)", about: "About Project", author: "Credits" },
+        ja: { welcome: "ウェブサイト本体エリア<br>(準備中...)", about: "プロジェクトについて", author: "クレジット" },
+        ko: { welcome: "웹사이트 본문 영역<br>(내용 준비중...)", about: "프로젝트 정보", author: "제작자" },
         ru: { welcome: "Основная часть сайта<br>(Ожидает наполнения...)", about: "О проекте", author: "Автор" }
     };
     const langFlagMap = { zh: "🇨🇳", en: "🇺🇸", ja: "🇯🇵", ko: "🇰🇷", ru: "🇷🇺" };
@@ -1020,7 +1094,7 @@
     });
 
     // ============================================================
-    // 5. 主题切换
+    // 5. 主题切换（右上角按钮保留）
     // ============================================================
     const themeBtn = document.getElementById("themeBtn");
     const iconMoon = document.getElementById("iconMoon");
@@ -1045,7 +1119,7 @@
     });
 
     // ============================================================
-    // 6. 侧边栏
+    // 6. 侧边栏 & 弹窗
     // ============================================================
     const menuBtn = document.getElementById("menuBtn");
     const sidebar = document.getElementById("sidebar");
@@ -1055,17 +1129,81 @@
     menuBtn.addEventListener("click", openSidebar);
     sidebarOverlay.addEventListener("click", closeSidebar);
 
+    // 关于项目
     const menuAbout = document.getElementById("menuAbout");
     const modalAbout = document.getElementById("modalAbout");
     const closeAbout = document.getElementById("closeAbout");
     menuAbout.addEventListener("click", () => { closeSidebar(); modalAbout.classList.add("show"); });
     closeAbout.addEventListener("click", () => modalAbout.classList.remove("show"));
 
+    // 制作人员
     const menuAuthor = document.getElementById("menuAuthor");
     const modalAuthor = document.getElementById("modalAuthor");
     const closeAuthor = document.getElementById("closeAuthor");
     menuAuthor.addEventListener("click", () => { closeSidebar(); modalAuthor.classList.add("show"); });
     closeAuthor.addEventListener("click", () => modalAuthor.classList.remove("show"));
+
+    // 成就系统
+    const menuAchievements = document.getElementById("menuAchievements");
+    const modalAchievements = document.getElementById("modalAchievements");
+    const closeAchievements = document.getElementById("closeAchievements");
+    const achievementList = document.getElementById("achievementList");
+
+    // 定义成就列表（对应搜索彩蛋）
+    const achievements = [
+        { id: 'egg_birthday', name: '🎂 生日祝福' },
+        { id: 'egg_boring', name: '😴 无聊时光' },
+        { id: 'egg_sadday', name: '🌧️ 难忘之日' }
+    ];
+
+    // 加载成就状态
+    function loadAchievements() {
+        const stored = localStorage.getItem('lyto1_achievements');
+        if (stored) {
+            try {
+                return JSON.parse(stored);
+            } catch(e) { return {}; }
+        }
+        return {};
+    }
+
+    function saveAchievements(data) {
+        localStorage.setItem('lyto1_achievements', JSON.stringify(data));
+    }
+
+    // 解锁成就（在彩蛋触发时调用）
+    function unlockAchievement(id) {
+        const data = loadAchievements();
+        if (!data[id]) {
+            data[id] = true;
+            saveAchievements(data);
+        }
+    }
+
+    // 渲染成就列表（不显示解锁提示）
+    function renderAchievements() {
+        const data = loadAchievements();
+        let html = '';
+        achievements.forEach(ach => {
+            const unlocked = !!data[ach.id];
+            const checkMark = unlocked ? '✅' : '⬜';
+            const className = unlocked ? 'unlocked' : 'locked';
+            html += `
+                <li>
+                    <span class="ach-check ${className}">${checkMark}</span>
+                    <span class="ach-name">${ach.name}</span>
+                </li>
+            `;
+        });
+        achievementList.innerHTML = html;
+    }
+
+    menuAchievements.addEventListener("click", () => {
+        closeSidebar();
+        renderAchievements();
+        modalAchievements.classList.add("show");
+    });
+    closeAchievements.addEventListener("click", () => modalAchievements.classList.remove("show"));
 
     // ============================================================
     // 7. B站欢迎弹窗
@@ -1086,7 +1224,7 @@
     });
 
     // ============================================================
-    // 8. 搜索彩蛋
+    // 8. 搜索彩蛋（集成成就解锁）
     // ============================================================
     const searchBtn = document.getElementById('searchBtn');
     const searchModal = document.getElementById('searchModal');
@@ -1107,29 +1245,36 @@
             await new Promise(resolve => setTimeout(resolve, intervalMs));
         }
     }
+
+    // 彩蛋配置（关联成就ID）
     const eggConfig = {
         "7月9日生日快乐！": {
             text: "你是怎么知道我的生日的？谢谢你祝我生日快乐！今天也是你的生日吗？不是也没关系，爱自己的每一天都是自己的生日！",
             delay: 4000,
-            audio: null
+            audio: null,
+            achId: 'egg_birthday'
         },
         "无聊中ing……": {
             text: "我也好无聊啊……要不，玩玩JavaMinecraft？",
             delay: 4000,
-            audio: null
+            audio: null,
+            achId: 'egg_boring'
         },
         "2026年7月18日": {
             text: "这日让我非常难受，你今天过得好不好？不管怎么样，人生就是这样的，路不会太平，太简单易走，有些时候我感觉我有被孤立，有被这个世界遗忘，但是，我遇见了你，与你的日常便是奇迹，不说这么多了，祝你以后的日子好过些，以后的人生大放光彩。至少……你开心就行……",
             delay: 5000,
-            audio: bgmSensoryOverload
+            audio: bgmSensoryOverload,
+            achId: 'egg_sadday'
         }
     };
+
     searchBtn.addEventListener('click', () => {
         searchModal.classList.add('show');
         searchEggInput.value = "";
         setTimeout(() => searchEggInput.focus(), 100);
     });
     searchCloseBtn.addEventListener('click', () => searchModal.classList.remove('show'));
+
     searchConfirmBtn.addEventListener('click', async () => {
         const inputText = searchEggInput.value.trim();
         searchModal.classList.remove('show');
@@ -1137,6 +1282,10 @@
         const cfg = eggConfig[inputText];
         const sentenceArr = splitSentenceByPunct(cfg.text);
         if(cfg.audio){ cfg.audio.currentTime = 0; cfg.audio.play().catch(e => console.log("播放被阻止")); }
+        // 解锁成就
+        if (cfg.achId) {
+            unlockAchievement(cfg.achId);
+        }
         await runSentenceSlide(sentenceArr, cfg.delay);
     });
     searchEggInput.addEventListener('keydown', e => { if(e.key === "Enter") searchConfirmBtn.click(); });
