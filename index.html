@@ -19,6 +19,8 @@
             --radius-md: 14px;
             --glow-color: rgba(59, 130, 246, 0.08);
             --card-border-glow: rgba(59, 130, 246, 0.15);
+            --btn-gray: #6b7280;
+            --btn-pink: #fb7299;
         }
 
         .dark {
@@ -32,6 +34,7 @@
             --shadow: 0 2px 14px rgba(0,0,0,0.45);
             --glow-color: rgba(99, 102, 241, 0.12);
             --card-border-glow: rgba(99, 102, 241, 0.25);
+            --btn-gray: #9ca3af;
         }
 
         .national-day-red {
@@ -70,7 +73,6 @@
             position: relative;
         }
 
-        /* ===== 四角光晕 ===== */
         body::before,
         body::after {
             content: '';
@@ -247,8 +249,8 @@
         .sidebar {
             position: fixed;
             top: 0;
-            right: -260px;
-            width: 260px;
+            right: -280px;
+            width: 280px;
             height: 100%;
             background: var(--card-bg);
             backdrop-filter: blur(16px);
@@ -257,10 +259,17 @@
             transition: right 0.3s cubic-bezier(0.4,0,0.2,1);
             box-shadow: -6px 0 20px rgba(0,0,0,0.25);
             padding-top: 70px;
+            display: flex;
+            flex-direction: column;
         }
 
         .sidebar.active {
             right: 0;
+        }
+
+        .sidebar-content {
+            flex: 1;
+            overflow-y: auto;
         }
 
         .menu-item {
@@ -270,10 +279,93 @@
             cursor: pointer;
             display: block;
             color: var(--text-main);
+            transition: background 0.15s;
         }
 
         .menu-item:active {
             background: rgba(128,128,128,0.15);
+        }
+
+        /* ===== 三连图标区域 ===== */
+        .triple-icons {
+            display: none;
+            justify-content: center;
+            gap: 20px;
+            padding: 14px 20px 18px;
+            border-top: 1px solid rgba(128,128,128,0.1);
+            margin-top: 4px;
+            flex-shrink: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .triple-icons.show {
+            display: flex;
+        }
+
+        .triple-icons .t-icon {
+            font-size: 28px;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.15s, filter 0.3s, color 0.3s;
+            color: var(--btn-gray);
+            filter: grayscale(1);
+            opacity: 0.6;
+            touch-action: none;
+        }
+
+        .triple-icons .t-icon.unlocked {
+            color: var(--btn-pink);
+            filter: grayscale(0);
+            opacity: 1;
+        }
+
+        .triple-icons .t-icon.bounce-up {
+            animation: bounceUp 0.5s ease-out;
+        }
+
+        @keyframes bounceUp {
+            0% { transform: translateY(0) scale(1); }
+            30% { transform: translateY(-20px) scale(1.2); }
+            60% { transform: translateY(-8px) scale(0.95); }
+            100% { transform: translateY(0) scale(1); }
+        }
+
+        /* ===== 侧边栏底部 ===== */
+        .sidebar-bottom {
+            flex-shrink: 0;
+            border-top: 1px solid rgba(128,128,128,0.08);
+            padding: 12px 20px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sidebar-bottom .share-btn {
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: var(--text-footer);
+            padding: 6px 10px;
+            border-radius: var(--radius-md);
+            transition: background 0.2s, color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .sidebar-bottom .share-btn:active {
+            background: rgba(128,128,128,0.15);
+        }
+
+        .sidebar-bottom .share-btn:hover {
+            color: var(--accent);
+        }
+
+        .sidebar-bottom .made-with {
+            font-size: 11px;
+            color: var(--text-footer);
+            opacity: 0.4;
         }
 
         main {
@@ -288,7 +380,6 @@
             gap: 20px;
         }
 
-        /* ===== 欢迎卡片 ===== */
         .welcome-card {
             position: relative;
             overflow: hidden;
@@ -362,9 +453,22 @@
             z-index: 2;
         }
 
+        /* ===== 实时时钟 ===== */
+        .welcome-card .card-clock {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin: 10px 0 4px;
+            color: var(--text-main);
+            position: relative;
+            z-index: 2;
+            font-variant-numeric: tabular-nums;
+        }
+
         .welcome-card .card-footer {
-            margin-top: 18px;
-            padding-top: 16px;
+            margin-top: 16px;
+            padding-top: 14px;
             border-top: 1px solid rgba(128,128,128,0.1);
             display: flex;
             justify-content: space-between;
@@ -374,6 +478,8 @@
             opacity: 0.7;
             position: relative;
             z-index: 2;
+            flex-wrap: wrap;
+            gap: 4px;
         }
 
         .welcome-card .card-footer .status-dot {
@@ -386,12 +492,16 @@
             animation: pulse-dot 2s ease-in-out infinite;
         }
 
+        .welcome-card .card-footer .visitor-count {
+            font-size: 11px;
+            opacity: 0.6;
+        }
+
         @keyframes pulse-dot {
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.4; transform: scale(0.8); }
         }
 
-        /* ===== 装饰标签 ===== */
         .feature-tags {
             display: flex;
             flex-wrap: wrap;
@@ -454,6 +564,8 @@
             border-radius: var(--radius-lg);
             padding: 30px 24px;
             border: 1px solid rgba(255,255,255,0.18);
+            max-height: 80vh;
+            overflow-y: auto;
         }
 
         .modal-text {
@@ -593,8 +705,14 @@
             opacity: 0.6;
             font-size: 12px;
         }
+
+        .footer-counter {
+            margin-top: 6px;
+            font-size: 12px;
+            opacity: 0.4;
+            color: var(--text-footer);
+        }
     
-        /* ================= Loading ================= */
         #loadingScreen {
             position: fixed;
             inset: 0;
@@ -635,7 +753,6 @@
             opacity: 0.7;
         }
 
-        /* ================= 粒子背景 ================= */
         #particleCanvas {
             position: fixed;
             top: 0;
@@ -646,7 +763,7 @@
             pointer-events: none;
         }
 
-        /* ===== 成就列表样式 ===== */
+        /* ===== 成就列表 ===== */
         .achievement-list {
             text-align: left;
             margin: 8px 0 12px;
@@ -679,17 +796,41 @@
         .achievement-list .ach-name {
             flex: 1;
         }
+
+        /* ===== 更新日志 ===== */
+        .changelog-list {
+            text-align: left;
+            margin: 8px 0 12px;
+            padding: 0;
+            list-style: none;
+        }
+        .changelog-list li {
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(128,128,128,0.06);
+            font-size: 14px;
+            color: var(--text-main);
+            display: flex;
+            gap: 10px;
+        }
+        .changelog-list li:last-child {
+            border-bottom: none;
+        }
+        .changelog-list .cl-ver {
+            font-weight: 600;
+            color: var(--accent);
+            white-space: nowrap;
+        }
+        .changelog-list .cl-desc {
+            opacity: 0.85;
+        }
     </style>
 </head>
 <body>
-    <!-- 额外光晕 -->
     <div class="glow-spot g1"></div>
     <div class="glow-spot g2"></div>
 
-    <!-- 动态粒子背景 -->
     <canvas id="particleCanvas"></canvas>
 
-    <!-- Loading -->
     <div id="loadingScreen">
         <div class="loading-spinner"></div>
         <div class="loading-text">LY-TO1</div>
@@ -699,19 +840,16 @@
         <source src="" type="audio/mpeg">
     </audio>
 
-    <!-- 愚人节彩蛋 -->
     <div class="april-fool-screen" id="aprilScreen">
         <div>哎呀网站不见了UwU</div>
         <div style="margin-top:16px;font-size:14px;">←先左滑，再右滑解锁</div>
     </div>
 
-    <!-- 节日弹窗 -->
     <div class="festival-screen hidden" id="festivalScreen">
         <div id="festivalText"></div>
         <div style="margin-top:30px;font-size:14px;color:#cccccc">点击任意位置关闭</div>
     </div>
 
-    <!-- 搜索彩蛋弹窗 -->
     <div class="modal-overlay" id="searchModal">
         <div class="modal">
             <div class="modal-text">🔍输入密令触发彩蛋</div>
@@ -721,7 +859,6 @@
         </div>
     </div>
 
-    <!-- 顶部导航 -->
     <header id="siteHeader">
         <div class="header-left">
             <button class="icon-btn" id="searchBtn">
@@ -753,31 +890,38 @@
         </div>
     </header>
 
-    <!-- ===== 侧边栏（已按要求精简） ===== -->
+    <!-- ===== 侧边栏 ===== -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
     <div class="sidebar" id="sidebar">
-        <!-- 顶部项目信息 -->
-        <div style="padding: 0 26px 16px; border-bottom: 1px solid rgba(128,128,128,0.1);">
-            <div style="font-size: 18px; font-weight: 700; color: var(--text-main);">LY-TO1</div>
-            <div style="font-size: 12px; color: var(--text-footer); margin-top: 2px;">v3.1.9.5 · MIT 开源</div>
+        <div class="sidebar-content">
+            <div style="padding: 0 26px 16px; border-bottom: 1px solid rgba(128,128,128,0.1);">
+                <div style="font-size: 18px; font-weight: 700; color: var(--text-main);">LY-TO1</div>
+                <div style="font-size: 12px; color: var(--text-footer); margin-top: 2px;">v3.2.6-β · MIT 开源</div>
+            </div>
+
+            <div class="menu-item" id="menuAbout">📄 关于项目</div>
+            <div class="menu-item" id="menuAuthor">👤 制作人员</div>
+            <div class="menu-item" id="menuAchievements">🏆 成就</div>
+            <div class="menu-item" id="menuChangelog">📋 更新日志</div>
+
+            <div style="height: 1px; margin: 8px 26px; background: rgba(128,128,128,0.1);"></div>
+
+            <a target="_blank" href="https://github.com/xnyxyzaf/LY-TO1" style="text-decoration: none;">
+                <div class="menu-item">🐙 GitHub 仓库</div>
+            </a>
         </div>
 
-        <!-- 菜单项 -->
-        <div class="menu-item" id="menuAbout">📄 关于项目</div>
-        <div class="menu-item" id="menuAuthor">👤 制作人员</div>
-        <div class="menu-item" id="menuAchievements">🏆 成就</div>
+        <!-- 三连图标（初始隐藏） -->
+        <div class="triple-icons" id="tripleIcons">
+            <span class="t-icon" id="iconLike">👍</span>
+            <span class="t-icon" id="iconCoin">🪙</span>
+            <span class="t-icon" id="iconStar">⭐</span>
+        </div>
 
-        <!-- 分割线 -->
-        <div style="height: 1px; margin: 8px 26px; background: rgba(128,128,128,0.1);"></div>
-
-        <!-- 社交链接 -->
-        <a target="_blank" href="https://github.com/xnyxyzaf/LY-TO1" style="text-decoration: none;">
-            <div class="menu-item">🐙 GitHub 仓库</div>
-        </a>
-
-        <!-- 底部 -->
-        <div style="position: absolute; bottom: 20px; left: 0; right: 0; text-align: center; font-size: 11px; color: var(--text-footer); opacity: 0.4; padding: 0 20px;">
-            Made with ❤️ · 2026
+        <!-- 底部：分享 + 版权 -->
+        <div class="sidebar-bottom">
+            <button class="share-btn" id="shareBtn">📤 分享</button>
+            <span class="made-with">❤️ 2026</span>
         </div>
     </div>
 
@@ -787,9 +931,12 @@
             <div class="spotlight-overlay" id="spotOverlay"></div>
             <div class="card-badge">✦ 交互式粒子系统</div>
             <h1>亻尔女子，欢迎来到我的网页参观UwO，这里欢迎您！</h1>
+            <!-- 实时时钟 -->
+            <div class="card-clock" id="clockDisplay">00:00:00</div>
             <div class="card-footer">
                 <span><span class="status-dot"></span>系统运行中</span>
-                <span>v3.1.9.5-β</span>
+                <span class="visitor-count" id="visitorCount">👀 访问：--</span>
+                <span>v3.2.6-β</span>
             </div>
         </div>
 
@@ -800,6 +947,8 @@
             <span>🌐 多语言</span>
             <span>🎉 节日彩蛋</span>
             <span>🔍 密令搜索</span>
+            <span>🕰️ 实时时钟</span>
+            <span>🔢 输入数字</span>
         </div>
     </main>
 
@@ -819,16 +968,12 @@
             <a href="#">Docs</a>
             <a href="#">Contact</a>
         </div>
-        <div class="footer-links">
-            <a href="#">Manage cookies</a>
-            <a href="#">Do not share my personal information</a>
-        </div>
         <div class="footer-copyright">
             © 2026 Project LY‑TO1 , Inc.
         </div>
     </footer>
 
-    <!-- B站关注弹窗 -->
+    <!-- 弹窗区域 -->
     <div class="modal-overlay" id="bilibiliWelcomeModal">
         <div class="modal">
             <div class="modal-text">这是我第一次做自己的网站，你可以去B站关注我的账号吗？</div>
@@ -843,42 +988,50 @@
         </div>
     </div>
 
-    <!-- 关于项目弹窗 -->
     <div class="modal-overlay" id="modalAbout">
         <div class="modal">
             <div class="modal-text">
-                项目编号 LY‑TO1 v3.1.9.5‑β
+                项目编号 LY‑TO1 v3.2.6‑β
                 <div class="thankyou">Thank you for watch.</div>
             </div>
             <button class="modal-btn modal-close" id="closeAbout">关闭</button>
         </div>
     </div>
 
-    <!-- 制作人员弹窗 -->
     <div class="modal-overlay" id="modalAuthor">
         <div class="modal">
             <div class="modal-text">零夜巡Astrus</div>
-            <a target="_blank" href="https://space.bilibili.com/3546933496908320?spm_id_from=333.337.0.0">
-                <button class="modal-btn bilibili-btn">去关注我的B站账号</button>
-            </a>
+            <button class="modal-btn bilibili-btn" id="authorBiliBtn">去B站关注我的账号</button>
             <button class="modal-btn modal-close" id="closeAuthor">关闭</button>
         </div>
     </div>
 
-    <!-- 成就弹窗 -->
     <div class="modal-overlay" id="modalAchievements">
         <div class="modal">
             <div class="modal-text">🏆 彩蛋成就</div>
             <ul class="achievement-list" id="achievementList">
-                <!-- 由 JS 动态生成 -->
+                <!-- 动态生成 -->
             </ul>
             <button class="modal-btn modal-close" id="closeAchievements">关闭</button>
         </div>
     </div>
 
+    <div class="modal-overlay" id="modalChangelog">
+        <div class="modal">
+            <div class="modal-text">📋 更新日志</div>
+            <ul class="changelog-list" id="changelogList">
+                <li><span class="cl-ver">v3.2.6-β</span><span class="cl-desc">新增实时时钟、访问计数、三连彩蛋、分享功能</span></li>
+                <li><span class="cl-ver">v3.1.9</span><span class="cl-desc">侧边栏精简，成就系统优化</span></li>
+                <li><span class="cl-ver">v2.8.6</span><span class="cl-desc">粒子系统增强，陀螺仪响应加速</span></li>
+                <li><span class="cl-ver">v2.3.6</span><span class="cl-desc">首个公开版本，粒子背景+节日彩蛋</span></li>
+            </ul>
+            <button class="modal-btn modal-close" id="closeChangelog">关闭</button>
+        </div>
+    </div>
+
     <script>
     // ============================================================
-    // 1. 农历 & 节气工具
+    // 1. 农历 & 节气工具（保留）
     // ============================================================
     const Lunar = {
         lunarInfo: [0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16554,0x056a0,0x09ad0,0x055d2,0x04ae0,0x0a5b6,0x0a4d0,0x0d250,0x1d255,0x0b540,0x0d6a0,0x0ada2,0x095b0,0x14977,0x04970,0x0a4b0,0x0b4b5,0x06a50,0x06d40,0x1ab54,0x02b60,0x09570,0x052f2,0x04970,0x06566,0x0d4a0,0x0ea50,0x06e95,0x05ad0,0x02b60,0x186e3,0x092e0,0x1c8d7,0x0c950,0x0d4a0,0x1d8a6,0x0b550,0x056a0,0x1a5b4,0x025d0,0x092d0,0x0d2b2,0x0a950,0x0b557,0x06ca0,0x0b550,0x15355,0x04da0,0x0a5d0,0x14573,0x052d0,0x0a9a8,0x0e950,0x06aa0,0x0aea6,0x0ab50,0x04b60,0x0aae4,0x0a570,0x05260,0x0f263,0x0d950,0x05b57,0x056a0,0x096d0,0x04dd5,0x04ad0,0x0a4d0,0x0d4d4,0x0d250,0x0d558,0x0b540,0x0b5a0,0x195a6,0x095b0,0x049b0,0x0a974,0x0a4b0,0x0ad50,0x0b555,0x06d40,0x0afa0,0x08fd4,0x052d0,0x0aeb0,0x08b73,0x04ad0,0x0a4d0,0x1d0b6,0x0d250,0x0d520,0x0dd45,0x0b5a0,0x056d0,0x055b2,0x049b0,0x0a577,0x0a4b0,0x0aa50,0x1b255,0x06d20,0x0ada0],
@@ -941,7 +1094,7 @@
     }
 
     // ============================================================
-    // 2. 节日检测 & 愚人节
+    // 2. 节日 & 愚人节
     // ============================================================
     const aprilScreen = document.getElementById('aprilScreen');
     const festivalScreen = document.getElementById('festivalScreen');
@@ -1029,12 +1182,32 @@
     if(lunarNext.month === 1 && lunarNext.day === 1) showFestival("该和这一年做告别，迎接新的一年了OwO");
 
     // ============================================================
-    // 3. 欢迎卡片
+    // 3. 欢迎卡片 & 实时时钟 & 访问计数
     // ============================================================
     const welcomeCard = document.getElementById("welcomeCard");
     const spotOverlay = document.getElementById("spotOverlay");
     const featureTags = document.getElementById("featureTags");
+    const clockDisplay = document.getElementById("clockDisplay");
+    const visitorCountEl = document.getElementById("visitorCount");
 
+    // 实时时钟
+    function updateClock() {
+        const d = new Date();
+        const h = String(d.getHours()).padStart(2, '0');
+        const m = String(d.getMinutes()).padStart(2, '0');
+        const s = String(d.getSeconds()).padStart(2, '0');
+        clockDisplay.textContent = h + ':' + m + ':' + s;
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // 访问计数器（localStorage）
+    let visitCount = parseInt(localStorage.getItem('lyto1_visits') || '0');
+    visitCount += 1;
+    localStorage.setItem('lyto1_visits', String(visitCount));
+    visitorCountEl.textContent = '👀 访问：' + visitCount;
+
+    // 卡片入场动画
     requestAnimationFrame(() => {
         setTimeout(() => {
             welcomeCard.classList.add("visible");
@@ -1094,7 +1267,7 @@
     });
 
     // ============================================================
-    // 5. 主题切换（右上角按钮保留）
+    // 5. 主题切换（右上角按钮）
     // ============================================================
     const themeBtn = document.getElementById("themeBtn");
     const iconMoon = document.getElementById("iconMoon");
@@ -1119,7 +1292,7 @@
     });
 
     // ============================================================
-    // 6. 侧边栏 & 弹窗
+    // 6. 侧边栏控制 & 弹窗
     // ============================================================
     const menuBtn = document.getElementById("menuBtn");
     const sidebar = document.getElementById("sidebar");
@@ -1136,11 +1309,96 @@
     menuAbout.addEventListener("click", () => { closeSidebar(); modalAbout.classList.add("show"); });
     closeAbout.addEventListener("click", () => modalAbout.classList.remove("show"));
 
-    // 制作人员
+    // 制作人员 + 三连彩蛋机制
     const menuAuthor = document.getElementById("menuAuthor");
     const modalAuthor = document.getElementById("modalAuthor");
     const closeAuthor = document.getElementById("closeAuthor");
-    menuAuthor.addEventListener("click", () => { closeSidebar(); modalAuthor.classList.add("show"); });
+    const authorBiliBtn = document.getElementById("authorBiliBtn");
+    const tripleIcons = document.getElementById("tripleIcons");
+    const iconLike = document.getElementById("iconLike");
+    const iconCoin = document.getElementById("iconCoin");
+    const iconStar = document.getElementById("iconStar");
+
+    let biliJumpCount = parseInt(localStorage.getItem('lyto1_bili_jump') || '0');
+    let tripleUnlocked = localStorage.getItem('lyto1_triple_unlocked') === 'true';
+
+    function checkTripleUnlock() {
+        if (tripleUnlocked) {
+            tripleIcons.classList.add('show');
+            iconLike.classList.add('unlocked');
+            iconCoin.classList.add('unlocked');
+            iconStar.classList.add('unlocked');
+        } else if (biliJumpCount >= 3) {
+            tripleUnlocked = true;
+            localStorage.setItem('lyto1_triple_unlocked', 'true');
+            tripleIcons.classList.add('show');
+            // 成就解锁（一键三连）
+            unlockAchievement('triple_click');
+        }
+    }
+
+    // 点击“去B站关注我的账号”按钮
+    authorBiliBtn.addEventListener('click', () => {
+        biliJumpCount += 1;
+        localStorage.setItem('lyto1_bili_jump', String(biliJumpCount));
+        // 跳转B站
+        window.open('https://space.bilibili.com/3546933496908320?spm_id_from=333.337.0.0', '_blank');
+        // 检查是否达到3次
+        setTimeout(checkTripleUnlock, 500);
+    });
+
+    // 长按大拇指3秒解锁三连（仅当图标显示且未解锁时）
+    let pressTimer = null;
+    let isPressing = false;
+
+    function startPress(e) {
+        if (tripleUnlocked) return;
+        e.preventDefault();
+        isPressing = true;
+        pressTimer = setTimeout(() => {
+            // 长按触发
+            if (!tripleUnlocked) {
+                tripleUnlocked = true;
+                localStorage.setItem('lyto1_triple_unlocked', 'true');
+                // 图标弹跳动画 + 变粉
+                iconLike.classList.add('unlocked', 'bounce-up');
+                iconCoin.classList.add('unlocked', 'bounce-up');
+                iconStar.classList.add('unlocked', 'bounce-up');
+                // 成就解锁
+                unlockAchievement('triple_click');
+                // 移除bounce类以免累积
+                setTimeout(() => {
+                    iconLike.classList.remove('bounce-up');
+                    iconCoin.classList.remove('bounce-up');
+                    iconStar.classList.remove('bounce-up');
+                }, 600);
+            }
+            isPressing = false;
+        }, 3000);
+    }
+
+    function endPress(e) {
+        if (pressTimer) {
+            clearTimeout(pressTimer);
+            pressTimer = null;
+        }
+        isPressing = false;
+    }
+
+    // 同时支持鼠标和触摸
+    iconLike.addEventListener('mousedown', startPress);
+    iconLike.addEventListener('mouseup', endPress);
+    iconLike.addEventListener('mouseleave', endPress);
+    iconLike.addEventListener('touchstart', startPress, { passive: false });
+    iconLike.addEventListener('touchend', endPress);
+    iconLike.addEventListener('touchcancel', endPress);
+
+    // 打开制作人员弹窗
+    menuAuthor.addEventListener("click", () => {
+        closeSidebar();
+        modalAuthor.classList.add("show");
+        checkTripleUnlock(); // 每次打开时检查是否已解锁
+    });
     closeAuthor.addEventListener("click", () => modalAuthor.classList.remove("show"));
 
     // 成就系统
@@ -1149,20 +1407,17 @@
     const closeAchievements = document.getElementById("closeAchievements");
     const achievementList = document.getElementById("achievementList");
 
-    // 定义成就列表（对应搜索彩蛋）
     const achievements = [
         { id: 'egg_birthday', name: '🎂 生日祝福' },
         { id: 'egg_boring', name: '😴 无聊时光' },
-        { id: 'egg_sadday', name: '🌧️ 难忘之日' }
+        { id: 'egg_sadday', name: '🌧️ 难忘之日' },
+        { id: 'triple_click', name: '🔥 一键三连' }
     ];
 
-    // 加载成就状态
     function loadAchievements() {
         const stored = localStorage.getItem('lyto1_achievements');
         if (stored) {
-            try {
-                return JSON.parse(stored);
-            } catch(e) { return {}; }
+            try { return JSON.parse(stored); } catch(e) { return {}; }
         }
         return {};
     }
@@ -1171,7 +1426,6 @@
         localStorage.setItem('lyto1_achievements', JSON.stringify(data));
     }
 
-    // 解锁成就（在彩蛋触发时调用）
     function unlockAchievement(id) {
         const data = loadAchievements();
         if (!data[id]) {
@@ -1180,7 +1434,6 @@
         }
     }
 
-    // 渲染成就列表（不显示解锁提示）
     function renderAchievements() {
         const data = loadAchievements();
         let html = '';
@@ -1205,8 +1458,18 @@
     });
     closeAchievements.addEventListener("click", () => modalAchievements.classList.remove("show"));
 
+    // 更新日志
+    const menuChangelog = document.getElementById("menuChangelog");
+    const modalChangelog = document.getElementById("modalChangelog");
+    const closeChangelog = document.getElementById("closeChangelog");
+    menuChangelog.addEventListener("click", () => {
+        closeSidebar();
+        modalChangelog.classList.add("show");
+    });
+    closeChangelog.addEventListener("click", () => modalChangelog.classList.remove("show"));
+
     // ============================================================
-    // 7. B站欢迎弹窗
+    // 7. B站欢迎弹窗（保留）
     // ============================================================
     const bilibiliWelcomeModal = document.getElementById('bilibiliWelcomeModal');
     const btnLater = document.getElementById('btnLater');
@@ -1246,7 +1509,6 @@
         }
     }
 
-    // 彩蛋配置（关联成就ID）
     const eggConfig = {
         "7月9日生日快乐！": {
             text: "你是怎么知道我的生日的？谢谢你祝我生日快乐！今天也是你的生日吗？不是也没关系，爱自己的每一天都是自己的生日！",
@@ -1282,7 +1544,6 @@
         const cfg = eggConfig[inputText];
         const sentenceArr = splitSentenceByPunct(cfg.text);
         if(cfg.audio){ cfg.audio.currentTime = 0; cfg.audio.play().catch(e => console.log("播放被阻止")); }
-        // 解锁成就
         if (cfg.achId) {
             unlockAchievement(cfg.achId);
         }
@@ -1291,7 +1552,33 @@
     searchEggInput.addEventListener('keydown', e => { if(e.key === "Enter") searchConfirmBtn.click(); });
 
     // ============================================================
-    // 9. 粒子背景（快速响应版 0.8 / 0.16）
+    // 9. 分享功能（Web Share API）
+    // ============================================================
+    const shareBtn = document.getElementById('shareBtn');
+    shareBtn.addEventListener('click', () => {
+        if (navigator.share) {
+            navigator.share({
+                title: 'LY-TO1 个人工具箱',
+                text: '来玩这个会呼吸的网页！粒子随手机倾斜流动，还有隐藏彩蛋！',
+                url: window.location.href
+            }).catch(() => {});
+        } else {
+            // 降级方案：复制链接
+            const url = window.location.href;
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(url).then(() => {
+                    alert('链接已复制，快去分享吧！');
+                }).catch(() => {
+                    prompt('复制链接：', url);
+                });
+            } else {
+                prompt('复制链接：', url);
+            }
+        }
+    });
+
+    // ============================================================
+    // 10. 粒子背景（快速响应版 0.8 / 0.16）
     // ============================================================
     (function() {
         const canvas = document.getElementById('particleCanvas');
@@ -1481,7 +1768,7 @@
     })();
 
     // ============================================================
-    // 10. Loading
+    // 11. Loading 隐藏
     // ============================================================
     window.addEventListener('load', function() {
         setTimeout(function() {
