@@ -121,6 +121,28 @@
             background: var(--glow-color);
         }
 
+        /* ===== 壁纸层 ===== */
+        #wallpaperLayer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            transition: opacity 0.6s ease;
+        }
+        #wallpaperLayer img,
+        #wallpaperLayer video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        #wallpaperLayer.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
         header {
             position: fixed;
             top: 0;
@@ -537,6 +559,7 @@
             border-color: var(--accent);
         }
 
+        /* ===== 通用模态框 ===== */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -560,7 +583,7 @@
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             width: 100%;
-            max-width: 345px;
+            max-width: 380px;
             border-radius: var(--radius-lg);
             padding: 30px 24px;
             border: 1px solid rgba(255,255,255,0.18);
@@ -761,6 +784,18 @@
             height: 100%;
             z-index: 0;
             pointer-events: none;
+            transition: opacity 0.6s ease;
+        }
+
+        /* ===== 鼠标特效 Canvas ===== */
+        #mouseEffectCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
         }
 
         /* ===== 成就列表 ===== */
@@ -823,13 +858,198 @@
         .changelog-list .cl-desc {
             opacity: 0.85;
         }
+
+        /* ===== 更多菜单（功能选择） ===== */
+        .more-menu-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 12px 0 16px;
+        }
+        .more-menu-item {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            padding: 20px 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
+            color: var(--text-main);
+            user-select: none;
+        }
+        .more-menu-item:active {
+            transform: scale(0.95);
+            background: var(--accent);
+            color: #fff;
+        }
+        .more-menu-item .icon {
+            font-size: 32px;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .more-menu-item .label {
+            font-size: 14px;
+        }
+        .more-menu-item .sub {
+            font-size: 11px;
+            opacity: 0.5;
+            margin-top: 2px;
+        }
+        .more-menu-item .sub.on {
+            opacity: 1;
+            color: #22c55e;
+        }
+        .more-menu-item .sub.off {
+            opacity: 0.5;
+        }
+
+        /* ===== 壁纸面板标签切换 ===== */
+        .wp-tabs {
+            display: flex;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-bottom: 16px;
+            border: 1px solid rgba(128,128,128,0.15);
+        }
+        .wp-tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            background: transparent;
+            color: var(--text-footer);
+        }
+        .wp-tab.active {
+            background: var(--accent);
+            color: #fff;
+        }
+        .wp-tab:active {
+            opacity: 0.7;
+        }
+
+        .wp-panel {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        .wp-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .wallpaper-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 8px 0 12px;
+        }
+        .wallpaper-preset {
+            aspect-ratio: 16/10;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.3s, transform 0.2s;
+            overflow: hidden;
+            position: relative;
+        }
+        .wallpaper-preset:active {
+            transform: scale(0.95);
+        }
+        .wallpaper-preset.active {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px var(--accent);
+        }
+        .wallpaper-preset .wp-label {
+            position: absolute;
+            bottom: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            background: rgba(0,0,0,0.5);
+            color: #fff;
+            padding: 2px 10px;
+            border-radius: 10px;
+            backdrop-filter: blur(4px);
+            white-space: nowrap;
+        }
+
+        .wp-upload-area {
+            border: 2px dashed rgba(128,128,128,0.3);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            text-align: center;
+            margin: 8px 0 12px;
+            transition: border-color 0.3s;
+            cursor: pointer;
+            font-size: 13px;
+            color: var(--text-footer);
+        }
+        .wp-upload-area:active {
+            border-color: var(--accent);
+        }
+        .wp-upload-area input {
+            display: none;
+        }
+
+        .wp-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 6px;
+        }
+        .wp-actions .wp-btn {
+            flex: 1;
+            min-width: 60px;
+            padding: 10px 8px;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.2s;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            color: var(--text-main);
+            border: 1px solid var(--glass-border);
+        }
+        .wp-actions .wp-btn:active {
+            transform: scale(0.95);
+        }
+        .wp-actions .wp-btn.primary {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+        .wp-actions .wp-btn.danger {
+            color: #ef4444;
+            border-color: rgba(239,68,68,0.3);
+        }
+        .wp-current-label {
+            font-size: 12px;
+            text-align: center;
+            opacity: 0.6;
+            margin-top: 6px;
+            color: var(--text-footer);
+        }
     </style>
 </head>
 <body>
+    <!-- 壁纸层 -->
+    <div id="wallpaperLayer" class="hidden"></div>
+
     <div class="glow-spot g1"></div>
     <div class="glow-spot g2"></div>
 
+    <!-- 粒子背景 -->
     <canvas id="particleCanvas"></canvas>
+
+    <!-- 鼠标特效层 -->
+    <canvas id="mouseEffectCanvas"></canvas>
 
     <div id="loadingScreen">
         <div class="loading-spinner"></div>
@@ -896,7 +1116,7 @@
         <div class="sidebar-content">
             <div style="padding: 0 26px 16px; border-bottom: 1px solid rgba(128,128,128,0.1);">
                 <div style="font-size: 18px; font-weight: 700; color: var(--text-main);">LY-TO1</div>
-                <div style="font-size: 12px; color: var(--text-footer); margin-top: 2px;">v3.2.6-β · MIT 开源</div>
+                <div style="font-size: 12px; color: var(--text-footer); margin-top: 2px;">v3.3.2-R · MIT 开源</div>
             </div>
 
             <div class="menu-item" id="menuAbout">📄 关于项目</div>
@@ -909,16 +1129,18 @@
             <a target="_blank" href="https://github.com/xnyxyzaf/LY-TO1" style="text-decoration: none;">
                 <div class="menu-item">🐙 GitHub 仓库</div>
             </a>
+
+            <div class="menu-item" id="menuMore">⚙️ 更多</div>
         </div>
 
-        <!-- 三连图标（初始隐藏） -->
+        <!-- 三连图标 -->
         <div class="triple-icons" id="tripleIcons">
             <span class="t-icon" id="iconLike">👍</span>
             <span class="t-icon" id="iconCoin">🪙</span>
             <span class="t-icon" id="iconStar">⭐</span>
         </div>
 
-        <!-- 底部：分享 + 版权 -->
+        <!-- 底部 -->
         <div class="sidebar-bottom">
             <button class="share-btn" id="shareBtn">📤 分享</button>
             <span class="made-with">❤️ 2026</span>
@@ -931,12 +1153,11 @@
             <div class="spotlight-overlay" id="spotOverlay"></div>
             <div class="card-badge">✦ 交互式粒子系统</div>
             <h1>亻尔女子，欢迎来到我的网页参观UwO，这里欢迎您！</h1>
-            <!-- 实时时钟 -->
             <div class="card-clock" id="clockDisplay">00:00:00</div>
             <div class="card-footer">
                 <span><span class="status-dot"></span>系统运行中</span>
                 <span class="visitor-count" id="visitorCount">👀 访问：--</span>
-                <span>v3.2.6-β</span>
+                <span>v3.3.2-R</span>
             </div>
         </div>
 
@@ -948,7 +1169,7 @@
             <span>🎉 节日彩蛋</span>
             <span>🔍 密令搜索</span>
             <span>🕰️ 实时时钟</span>
-            <span>🔢 网页访问计数器</span>
+            <span>🔢 输入数字</span>
         </div>
     </main>
 
@@ -973,7 +1194,8 @@
         </div>
     </footer>
 
-    <!-- 弹窗区域 -->
+    <!-- ===== 弹窗区域 ===== -->
+    <!-- B站欢迎 -->
     <div class="modal-overlay" id="bilibiliWelcomeModal">
         <div class="modal">
             <div class="modal-text">这是我第一次做自己的网站，你可以去B站关注我的账号吗？</div>
@@ -988,16 +1210,18 @@
         </div>
     </div>
 
+    <!-- 关于项目 -->
     <div class="modal-overlay" id="modalAbout">
         <div class="modal">
             <div class="modal-text">
-                项目编号 LY‑TO1 v3.2.6‑β
+                项目编号 LY‑TO1 v3.3.2‑R
                 <div class="thankyou">Thank you for watch.</div>
             </div>
             <button class="modal-btn modal-close" id="closeAbout">关闭</button>
         </div>
     </div>
 
+    <!-- 制作人员 -->
     <div class="modal-overlay" id="modalAuthor">
         <div class="modal">
             <div class="modal-text">零夜巡Astrus</div>
@@ -1006,26 +1230,78 @@
         </div>
     </div>
 
+    <!-- 成就 -->
     <div class="modal-overlay" id="modalAchievements">
         <div class="modal">
             <div class="modal-text">🏆 彩蛋成就</div>
-            <ul class="achievement-list" id="achievementList">
-                <!-- 动态生成 -->
-            </ul>
+            <ul class="achievement-list" id="achievementList"></ul>
             <button class="modal-btn modal-close" id="closeAchievements">关闭</button>
         </div>
     </div>
 
+    <!-- 更新日志 -->
     <div class="modal-overlay" id="modalChangelog">
         <div class="modal">
             <div class="modal-text">📋 更新日志</div>
             <ul class="changelog-list" id="changelogList">
-                <li><span class="cl-ver">v3.2.6-β</span><span class="cl-desc">新增实时时钟、访问计数、三连彩蛋、分享功能</span></li>
+                <li><span class="cl-ver">v3.3.2-R</span><span class="cl-desc">新增鼠标特效、壁纸自定义、更多菜单</span></li>
                 <li><span class="cl-ver">v3.1.9</span><span class="cl-desc">侧边栏精简，成就系统优化</span></li>
                 <li><span class="cl-ver">v2.8.6</span><span class="cl-desc">粒子系统增强，陀螺仪响应加速</span></li>
                 <li><span class="cl-ver">v2.3.6</span><span class="cl-desc">首个公开版本，粒子背景+节日彩蛋</span></li>
             </ul>
             <button class="modal-btn modal-close" id="closeChangelog">关闭</button>
+        </div>
+    </div>
+
+    <!-- ===== 更多功能菜单 ===== -->
+    <div class="modal-overlay" id="modalMoreMenu">
+        <div class="modal">
+            <div class="modal-text">⚙️ 更多功能</div>
+            <div class="more-menu-grid">
+                <div class="more-menu-item" id="moreWallpaper">
+                    <span class="icon">🎨</span>
+                    <span class="label">壁纸更换</span>
+                    <span class="sub">自定义背景</span>
+                </div>
+                <div class="more-menu-item" id="moreMusic" style="opacity:0.6;">
+                    <span class="icon">🎵</span>
+                    <span class="label">音乐播放</span>
+                    <span class="sub">即将上线</span>
+                </div>
+                <div class="more-menu-item" id="moreMouseEffect">
+                    <span class="icon">✨</span>
+                    <span class="label">鼠标特效</span>
+                    <span class="sub off" id="mouseEffectStatus">已关闭</span>
+                </div>
+            </div>
+            <button class="modal-btn modal-close" id="closeMoreMenu">关闭</button>
+        </div>
+    </div>
+
+    <!-- ===== 壁纸更换面板 ===== -->
+    <div class="modal-overlay" id="modalWallpaper">
+        <div class="modal">
+            <div class="modal-text">🎨 壁纸更换</div>
+            <div class="wp-tabs">
+                <div class="wp-tab active" data-tab="builtin">内置</div>
+                <div class="wp-tab" data-tab="custom">自定义</div>
+            </div>
+            <div class="wp-panel active" id="panelBuiltin">
+                <div class="wallpaper-grid" id="wallpaperGrid"></div>
+            </div>
+            <div class="wp-panel" id="panelCustom">
+                <div class="wp-upload-area" id="wpUploadArea">
+                    📁 点击上传图片或视频
+                    <input type="file" id="wpFileInput" accept="image/*,video/*">
+                    <div style="font-size:11px; opacity:0.5; margin-top:4px;">支持 JPG / PNG / WebP / MP4 / WebM</div>
+                </div>
+            </div>
+            <div class="wp-current-label" id="wpCurrentLabel">当前：默认粒子背景</div>
+            <div class="wp-actions">
+                <button class="wp-btn primary" id="wpApplyBtn">✅ 应用</button>
+                <button class="wp-btn danger" id="wpResetBtn">↺ 恢复默认</button>
+            </div>
+            <button class="modal-btn modal-close" id="closeWallpaper">关闭</button>
         </div>
     </div>
 
@@ -1190,7 +1466,6 @@
     const clockDisplay = document.getElementById("clockDisplay");
     const visitorCountEl = document.getElementById("visitorCount");
 
-    // 实时时钟
     function updateClock() {
         const d = new Date();
         const h = String(d.getHours()).padStart(2, '0');
@@ -1201,20 +1476,14 @@
     updateClock();
     setInterval(updateClock, 1000);
 
-    // 访问计数器（localStorage）
     let visitCount = parseInt(localStorage.getItem('lyto1_visits') || '0');
     visitCount += 1;
     localStorage.setItem('lyto1_visits', String(visitCount));
     visitorCountEl.textContent = '👀 访问：' + visitCount;
 
-    // 卡片入场动画
     requestAnimationFrame(() => {
-        setTimeout(() => {
-            welcomeCard.classList.add("visible");
-        }, 180);
-        setTimeout(() => {
-            featureTags.classList.add("visible");
-        }, 400);
+        setTimeout(() => welcomeCard.classList.add("visible"), 180);
+        setTimeout(() => featureTags.classList.add("visible"), 400);
     });
 
     welcomeCard.addEventListener('mousemove', e => {
@@ -1267,7 +1536,7 @@
     });
 
     // ============================================================
-    // 5. 主题切换（右上角按钮）
+    // 5. 主题切换
     // ============================================================
     const themeBtn = document.getElementById("themeBtn");
     const iconMoon = document.getElementById("iconMoon");
@@ -1292,7 +1561,7 @@
     });
 
     // ============================================================
-    // 6. 侧边栏控制 & 弹窗
+    // 6. 侧边栏 & 弹窗（原有）
     // ============================================================
     const menuBtn = document.getElementById("menuBtn");
     const sidebar = document.getElementById("sidebar");
@@ -1302,14 +1571,14 @@
     menuBtn.addEventListener("click", openSidebar);
     sidebarOverlay.addEventListener("click", closeSidebar);
 
-    // 关于项目
+    // 关于
     const menuAbout = document.getElementById("menuAbout");
     const modalAbout = document.getElementById("modalAbout");
     const closeAbout = document.getElementById("closeAbout");
     menuAbout.addEventListener("click", () => { closeSidebar(); modalAbout.classList.add("show"); });
     closeAbout.addEventListener("click", () => modalAbout.classList.remove("show"));
 
-    // 制作人员 + 三连彩蛋机制
+    // 制作人员 + 三连
     const menuAuthor = document.getElementById("menuAuthor");
     const modalAuthor = document.getElementById("modalAuthor");
     const closeAuthor = document.getElementById("closeAuthor");
@@ -1332,60 +1601,38 @@
             tripleUnlocked = true;
             localStorage.setItem('lyto1_triple_unlocked', 'true');
             tripleIcons.classList.add('show');
-            // 成就解锁（一键三连）
             unlockAchievement('triple_click');
         }
     }
 
-    // 点击“去B站关注我的账号”按钮
     authorBiliBtn.addEventListener('click', () => {
         biliJumpCount += 1;
         localStorage.setItem('lyto1_bili_jump', String(biliJumpCount));
-        // 跳转B站
         window.open('https://space.bilibili.com/3546933496908320?spm_id_from=333.337.0.0', '_blank');
-        // 检查是否达到3次
         setTimeout(checkTripleUnlock, 500);
     });
 
-    // 长按大拇指3秒解锁三连（仅当图标显示且未解锁时）
     let pressTimer = null;
-    let isPressing = false;
-
     function startPress(e) {
         if (tripleUnlocked) return;
         e.preventDefault();
-        isPressing = true;
         pressTimer = setTimeout(() => {
-            // 长按触发
             if (!tripleUnlocked) {
                 tripleUnlocked = true;
                 localStorage.setItem('lyto1_triple_unlocked', 'true');
-                // 图标弹跳动画 + 变粉
                 iconLike.classList.add('unlocked', 'bounce-up');
                 iconCoin.classList.add('unlocked', 'bounce-up');
                 iconStar.classList.add('unlocked', 'bounce-up');
-                // 成就解锁
                 unlockAchievement('triple_click');
-                // 移除bounce类以免累积
                 setTimeout(() => {
                     iconLike.classList.remove('bounce-up');
                     iconCoin.classList.remove('bounce-up');
                     iconStar.classList.remove('bounce-up');
                 }, 600);
             }
-            isPressing = false;
         }, 3000);
     }
-
-    function endPress(e) {
-        if (pressTimer) {
-            clearTimeout(pressTimer);
-            pressTimer = null;
-        }
-        isPressing = false;
-    }
-
-    // 同时支持鼠标和触摸
+    function endPress() { if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; } }
     iconLike.addEventListener('mousedown', startPress);
     iconLike.addEventListener('mouseup', endPress);
     iconLike.addEventListener('mouseleave', endPress);
@@ -1393,15 +1640,14 @@
     iconLike.addEventListener('touchend', endPress);
     iconLike.addEventListener('touchcancel', endPress);
 
-    // 打开制作人员弹窗
     menuAuthor.addEventListener("click", () => {
         closeSidebar();
         modalAuthor.classList.add("show");
-        checkTripleUnlock(); // 每次打开时检查是否已解锁
+        checkTripleUnlock();
     });
     closeAuthor.addEventListener("click", () => modalAuthor.classList.remove("show"));
 
-    // 成就系统
+    // 成就
     const menuAchievements = document.getElementById("menuAchievements");
     const modalAchievements = document.getElementById("modalAchievements");
     const closeAchievements = document.getElementById("closeAchievements");
@@ -1421,19 +1667,11 @@
         }
         return {};
     }
-
-    function saveAchievements(data) {
-        localStorage.setItem('lyto1_achievements', JSON.stringify(data));
-    }
-
+    function saveAchievements(data) { localStorage.setItem('lyto1_achievements', JSON.stringify(data)); }
     function unlockAchievement(id) {
         const data = loadAchievements();
-        if (!data[id]) {
-            data[id] = true;
-            saveAchievements(data);
-        }
+        if (!data[id]) { data[id] = true; saveAchievements(data); }
     }
-
     function renderAchievements() {
         const data = loadAchievements();
         let html = '';
@@ -1441,12 +1679,7 @@
             const unlocked = !!data[ach.id];
             const checkMark = unlocked ? '✅' : '⬜';
             const className = unlocked ? 'unlocked' : 'locked';
-            html += `
-                <li>
-                    <span class="ach-check ${className}">${checkMark}</span>
-                    <span class="ach-name">${ach.name}</span>
-                </li>
-            `;
+            html += `<li><span class="ach-check ${className}">${checkMark}</span><span class="ach-name">${ach.name}</span></li>`;
         });
         achievementList.innerHTML = html;
     }
@@ -1469,7 +1702,7 @@
     closeChangelog.addEventListener("click", () => modalChangelog.classList.remove("show"));
 
     // ============================================================
-    // 7. B站欢迎弹窗（保留）
+    // 7. B站欢迎弹窗
     // ============================================================
     const bilibiliWelcomeModal = document.getElementById('bilibiliWelcomeModal');
     const btnLater = document.getElementById('btnLater');
@@ -1487,7 +1720,7 @@
     });
 
     // ============================================================
-    // 8. 搜索彩蛋（集成成就解锁）
+    // 8. 搜索彩蛋
     // ============================================================
     const searchBtn = document.getElementById('searchBtn');
     const searchModal = document.getElementById('searchModal');
@@ -1544,15 +1777,13 @@
         const cfg = eggConfig[inputText];
         const sentenceArr = splitSentenceByPunct(cfg.text);
         if(cfg.audio){ cfg.audio.currentTime = 0; cfg.audio.play().catch(e => console.log("播放被阻止")); }
-        if (cfg.achId) {
-            unlockAchievement(cfg.achId);
-        }
+        if (cfg.achId) { unlockAchievement(cfg.achId); }
         await runSentenceSlide(sentenceArr, cfg.delay);
     });
     searchEggInput.addEventListener('keydown', e => { if(e.key === "Enter") searchConfirmBtn.click(); });
 
     // ============================================================
-    // 9. 分享功能（Web Share API）
+    // 9. 分享功能
     // ============================================================
     const shareBtn = document.getElementById('shareBtn');
     shareBtn.addEventListener('click', () => {
@@ -1563,7 +1794,6 @@
                 url: window.location.href
             }).catch(() => {});
         } else {
-            // 降级方案：复制链接
             const url = window.location.href;
             if (navigator.clipboard) {
                 navigator.clipboard.writeText(url).then(() => {
@@ -1578,7 +1808,381 @@
     });
 
     // ============================================================
-    // 10. 粒子背景（快速响应版 0.8 / 0.16）
+    // 10. 更多菜单 & 壁纸功能
+    // ============================================================
+    const modalMoreMenu = document.getElementById('modalMoreMenu');
+    const closeMoreMenu = document.getElementById('closeMoreMenu');
+    const menuMore = document.getElementById('menuMore');
+    const moreWallpaper = document.getElementById('moreWallpaper');
+    const moreMusic = document.getElementById('moreMusic');
+    const moreMouseEffect = document.getElementById('moreMouseEffect');
+    const mouseEffectStatus = document.getElementById('mouseEffectStatus');
+
+    // 壁纸相关元素
+    const modalWallpaper = document.getElementById('modalWallpaper');
+    const closeWallpaper = document.getElementById('closeWallpaper');
+    const wallpaperGrid = document.getElementById('wallpaperGrid');
+    const wpFileInput = document.getElementById('wpFileInput');
+    const wpUploadArea = document.getElementById('wpUploadArea');
+    const wpCurrentLabel = document.getElementById('wpCurrentLabel');
+    const wpApplyBtn = document.getElementById('wpApplyBtn');
+    const wpResetBtn = document.getElementById('wpResetBtn');
+    const wallpaperLayer = document.getElementById('wallpaperLayer');
+
+    // 预设壁纸
+    const presets = [
+        { id: 'preset1', name: '蓝紫梦幻', gradient: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 30%, #0f3460 60%, #533483 100%)' },
+        { id: 'preset2', name: '粉橙落日', gradient: 'linear-gradient(135deg, #1a0a0a 0%, #4a0e0e 30%, #8b2f2f 60%, #e07a5f 100%)' },
+        { id: 'preset3', name: '青绿森林', gradient: 'linear-gradient(135deg, #0a1a0a 0%, #0d3b0d 30%, #1a6b1a 60%, #3d8c40 100%)' }
+    ];
+
+    let selectedWallpaper = null;
+    let currentWallpaper = null;
+
+    function renderPresets() {
+        wallpaperGrid.innerHTML = '';
+        presets.forEach(p => {
+            const div = document.createElement('div');
+            div.className = 'wallpaper-preset';
+            div.style.background = p.gradient;
+            div.innerHTML = `<span class="wp-label">${p.name}</span>`;
+            div.dataset.id = p.id;
+            div.addEventListener('click', () => {
+                document.querySelectorAll('.wallpaper-preset').forEach(el => el.classList.remove('active'));
+                div.classList.add('active');
+                selectedWallpaper = { type: 'preset', id: p.id, gradient: p.gradient };
+                wpCurrentLabel.textContent = `已选：${p.name}`;
+            });
+            wallpaperGrid.appendChild(div);
+        });
+    }
+    renderPresets();
+
+    wpUploadArea.addEventListener('click', () => wpFileInput.click());
+
+    wpFileInput.addEventListener('change', function(e) {
+        const file = this.files[0];
+        if (!file) return;
+
+        if (file.name.endsWith('.mpkg')) {
+            alert('⚠️ .mpkg 是 Wallpaper Engine 的加密格式，浏览器无法直接解析。\n请先用 Wallpaper Engine 或解包工具提取其中的视频/图片文件，然后重新上传。');
+            this.value = '';
+            return;
+        }
+
+        const isImage = file.type.startsWith('image/');
+        const isVideo = file.type.startsWith('video/');
+        if (!isImage && !isVideo) {
+            alert('⚠️ 请上传图片 (JPG/PNG/WebP) 或视频 (MP4/WebM) 文件');
+            this.value = '';
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const dataURL = e.target.result;
+            if (isImage) {
+                selectedWallpaper = { type: 'image', data: dataURL };
+                wpCurrentLabel.textContent = `已选：图片 (${file.name})`;
+            } else if (isVideo) {
+                selectedWallpaper = { type: 'video', data: dataURL };
+                wpCurrentLabel.textContent = `已选：视频 (${file.name})`;
+            }
+            document.querySelectorAll('.wallpaper-preset').forEach(el => el.classList.remove('active'));
+        };
+        reader.readAsDataURL(file);
+        this.value = '';
+    });
+
+    function applyWallpaper(wp) {
+        wallpaperLayer.innerHTML = '';
+        wallpaperLayer.classList.remove('hidden');
+        const canvas = document.getElementById('particleCanvas');
+
+        if (!wp) {
+            wallpaperLayer.classList.add('hidden');
+            canvas.style.opacity = '1';
+            currentWallpaper = null;
+            wpCurrentLabel.textContent = '当前：默认粒子背景';
+            localStorage.removeItem('lyto1_wallpaper');
+            return;
+        }
+
+        if (wp.type === 'preset' && wp.gradient) {
+            wallpaperLayer.style.background = wp.gradient;
+            wallpaperLayer.innerHTML = '';
+            canvas.style.opacity = '0';
+            currentWallpaper = wp;
+            const name = presets.find(p => p.id === wp.id)?.name || '预设壁纸';
+            wpCurrentLabel.textContent = `当前：${name}`;
+            localStorage.setItem('lyto1_wallpaper', JSON.stringify(wp));
+        } else if (wp.type === 'image' && wp.data) {
+            const img = document.createElement('img');
+            img.src = wp.data;
+            wallpaperLayer.innerHTML = '';
+            wallpaperLayer.appendChild(img);
+            wallpaperLayer.style.background = 'transparent';
+            canvas.style.opacity = '0';
+            currentWallpaper = wp;
+            wpCurrentLabel.textContent = '当前：自定义图片';
+            localStorage.setItem('lyto1_wallpaper', JSON.stringify(wp));
+        } else if (wp.type === 'video' && wp.data) {
+            const video = document.createElement('video');
+            video.src = wp.data;
+            video.autoplay = true;
+            video.loop = true;
+            video.muted = true;
+            video.playsInline = true;
+            wallpaperLayer.innerHTML = '';
+            wallpaperLayer.appendChild(video);
+            wallpaperLayer.style.background = 'transparent';
+            canvas.style.opacity = '0';
+            currentWallpaper = wp;
+            wpCurrentLabel.textContent = '当前：自定义视频';
+            localStorage.setItem('lyto1_wallpaper', JSON.stringify(wp));
+            video.play().catch(() => {});
+        }
+    }
+
+    wpApplyBtn.addEventListener('click', () => {
+        if (selectedWallpaper) {
+            applyWallpaper(selectedWallpaper);
+        } else {
+            alert('请先选择或上传一张壁纸');
+        }
+    });
+
+    wpResetBtn.addEventListener('click', () => {
+        applyWallpaper(null);
+        document.querySelectorAll('.wallpaper-preset').forEach(el => el.classList.remove('active'));
+        selectedWallpaper = null;
+        wpCurrentLabel.textContent = '当前：默认粒子背景';
+    });
+
+    function loadSavedWallpaper() {
+        const saved = localStorage.getItem('lyto1_wallpaper');
+        if (saved) {
+            try {
+                const wp = JSON.parse(saved);
+                if (wp.type === 'preset') {
+                    const preset = presets.find(p => p.id === wp.id);
+                    if (preset) {
+                        wp.gradient = preset.gradient;
+                        applyWallpaper(wp);
+                        selectedWallpaper = wp;
+                        document.querySelectorAll('.wallpaper-preset').forEach(el => {
+                            if (el.dataset.id === wp.id) el.classList.add('active');
+                        });
+                        wpCurrentLabel.textContent = `当前：${preset.name}`;
+                    }
+                } else if (wp.type === 'image' || wp.type === 'video') {
+                    if (wp.data && wp.data.length > 100) {
+                        applyWallpaper(wp);
+                        selectedWallpaper = wp;
+                    } else {
+                        localStorage.removeItem('lyto1_wallpaper');
+                    }
+                }
+            } catch(e) {
+                localStorage.removeItem('lyto1_wallpaper');
+            }
+        }
+    }
+    loadSavedWallpaper();
+
+    // 更多菜单
+    menuMore.addEventListener("click", () => {
+        closeSidebar();
+        modalMoreMenu.classList.add("show");
+    });
+    closeMoreMenu.addEventListener("click", () => modalMoreMenu.classList.remove("show"));
+
+    moreWallpaper.addEventListener("click", () => {
+        modalMoreMenu.classList.remove("show");
+        modalWallpaper.classList.add("show");
+    });
+
+    moreMusic.addEventListener("click", () => {
+        alert('🎵 音乐播放功能正在开发中，敬请期待！');
+    });
+
+    closeWallpaper.addEventListener("click", () => modalWallpaper.classList.remove("show"));
+
+    // 标签切换
+    document.querySelectorAll('.wp-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            document.querySelectorAll('.wp-tab').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            const target = this.dataset.tab;
+            document.querySelectorAll('.wp-panel').forEach(p => p.classList.remove('active'));
+            if (target === 'builtin') {
+                document.getElementById('panelBuiltin').classList.add('active');
+            } else {
+                document.getElementById('panelCustom').classList.add('active');
+            }
+        });
+    });
+
+    // ============================================================
+    // 11. 鼠标特效（蔚蓝档案风格 - 蓝色光圈+光点）
+    // ============================================================
+    const effectCanvas = document.getElementById('mouseEffectCanvas');
+    const ectx = effectCanvas.getContext('2d');
+    let effectParticles = [];
+    let isEffectEnabled = false;
+
+    function resizeEffectCanvas() {
+        effectCanvas.width = window.innerWidth;
+        effectCanvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeEffectCanvas);
+    resizeEffectCanvas();
+
+    // === 蔚蓝档案风格特效 ===
+    class BlueArchiveEffect {
+        constructor(x, y, type) {
+            this.x = x;
+            this.y = y;
+            this.type = type; // 'ring' 或 'spark'
+            if (type === 'ring') {
+                this.radius = 5;
+                this.maxRadius = 80;
+                this.life = 1.0;
+                this.decay = 0.018;
+                this.lineWidth = 3;
+                this.color = `rgba(100, 180, 255, `;
+            } else { // spark
+                const angle = Math.random() * 2 * Math.PI;
+                const speed = Math.random() * 3 + 1.5;
+                this.vx = Math.cos(angle) * speed;
+                this.vy = Math.sin(angle) * speed;
+                this.size = Math.random() * 4 + 2;
+                this.life = 1.0;
+                this.decay = 0.015 + Math.random() * 0.02;
+                this.color = `hsl(${210 + Math.random() * 30}, 90%, 70%)`;
+            }
+        }
+        update() {
+            if (this.type === 'ring') {
+                this.radius += 1.2;
+                this.life -= this.decay;
+                this.lineWidth *= 0.98;
+                return this.life <= 0 || this.radius > this.maxRadius;
+            } else {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.life -= this.decay;
+                this.size *= 0.99;
+                return this.life <= 0 || this.size < 0.5;
+            }
+        }
+        draw(ctx) {
+            ctx.save();
+            ctx.globalAlpha = this.life;
+            if (this.type === 'ring') {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.strokeStyle = this.color + this.life + ')';
+                ctx.lineWidth = this.lineWidth;
+                ctx.stroke();
+                // 内层发光小圈
+                if (this.radius > 10) {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius * 0.6, 0, Math.PI * 2);
+                    ctx.strokeStyle = `rgba(150, 210, 255, ${this.life * 0.3})`;
+                    ctx.lineWidth = this.lineWidth * 1.5;
+                    ctx.stroke();
+                }
+            } else {
+                ctx.shadowColor = this.color;
+                ctx.shadowBlur = 12;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+            ctx.restore();
+        }
+    }
+
+    // 存储特效元素
+    let effects = [];
+    let lastMouseX = 0, lastMouseY = 0;
+
+    // 鼠标移动 - 产生拖尾光点（稀疏，保持优雅）
+    document.addEventListener('mousemove', (e) => {
+        if (!isEffectEnabled) return;
+        const x = e.clientX, y = e.clientY;
+        // 距离太近不产生，避免密集
+        const dx = x - lastMouseX, dy = y - lastMouseY;
+        if (Math.sqrt(dx*dx + dy*dy) > 12) {
+            for (let i = 0; i < 1; i++) {
+                effects.push(new BlueArchiveEffect(x, y, 'spark'));
+            }
+            lastMouseX = x;
+            lastMouseY = y;
+        }
+        if (effects.length > 300) {
+            effects.splice(0, 50);
+        }
+    });
+
+    // 点击 - 产生光圈 + 大量光点
+    document.addEventListener('click', (e) => {
+        if (!isEffectEnabled) return;
+        const x = e.clientX, y = e.clientY;
+        // 光环
+        effects.push(new BlueArchiveEffect(x, y, 'ring'));
+        // 光点爆开
+        for (let i = 0; i < 30; i++) {
+            effects.push(new BlueArchiveEffect(x, y, 'spark'));
+        }
+        if (effects.length > 400) {
+            effects.splice(0, 100);
+        }
+    });
+
+    // 动画循环
+    function animateEffects() {
+        ectx.clearRect(0, 0, effectCanvas.width, effectCanvas.height);
+        if (isEffectEnabled) {
+            for (let i = effects.length - 1; i >= 0; i--) {
+                const e = effects[i];
+                if (e.update()) {
+                    effects.splice(i, 1);
+                } else {
+                    e.draw(ectx);
+                }
+            }
+        } else {
+            effects = [];
+        }
+        requestAnimationFrame(animateEffects);
+    }
+    animateEffects();
+
+    // 鼠标特效开关逻辑
+    let mouseEffectEnabled = localStorage.getItem('lyto1_mouse_effect_ba') === 'true';
+
+    function updateMouseEffectUI() {
+        isEffectEnabled = mouseEffectEnabled;
+        mouseEffectStatus.textContent = mouseEffectEnabled ? '已开启 ✅' : '已关闭 ❌';
+        mouseEffectStatus.className = 'sub ' + (mouseEffectEnabled ? 'on' : 'off');
+        if (!mouseEffectEnabled) {
+            effects = [];
+            ectx.clearRect(0, 0, effectCanvas.width, effectCanvas.height);
+        }
+    }
+    updateMouseEffectUI();
+
+    moreMouseEffect.addEventListener('click', () => {
+        mouseEffectEnabled = !mouseEffectEnabled;
+        localStorage.setItem('lyto1_mouse_effect_ba', String(mouseEffectEnabled));
+        updateMouseEffectUI();
+    });
+
+    // ============================================================
+    // 12. 粒子背景
     // ============================================================
     (function() {
         const canvas = document.getElementById('particleCanvas');
@@ -1768,7 +2372,7 @@
     })();
 
     // ============================================================
-    // 11. Loading 隐藏
+    // 13. Loading 隐藏
     // ============================================================
     window.addEventListener('load', function() {
         setTimeout(function() {
